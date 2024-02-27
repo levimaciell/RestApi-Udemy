@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.levi.spring.person.dto.PersonDto;
-import com.levi.spring.person.dto.PersonDtoV2;
 import com.levi.spring.person.services.PersonServices;
 
 @RestController
@@ -46,15 +45,6 @@ public class PersonController {
     )
     public PersonDto create(@RequestBody PersonDto person){
         return service.create(person);
-    }
-
-    @PostMapping(
-        value = "/v2",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person){
-        return service.createV2(person);
     }
 
     @PutMapping(
