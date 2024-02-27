@@ -1,6 +1,5 @@
 package com.levi.spring.person.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.levi.spring.exceptions.ResourceNotFoundException;
-import com.levi.spring.person.dto.PersonDto;
-import com.levi.spring.person.dto.PersonDtoV2;
 import com.levi.spring.person.entity.Person;
 import com.levi.spring.repositories.PersonRepository;
 
@@ -20,37 +17,25 @@ public class PersonServices {
     @Autowired
     private PersonRepository repository;
 
-    public List<PersonDto> findAll(){
+    public List<Person> findAll(){
 
         logger.info("Finding all people");
-        return repository.findAll().stream().map((x) -> new PersonDto(x.getId(), x.getFirstName(), x.getLastName(), x.getAddress(), x.getGender())).toList();
+        return repository.findAll();
     }
 
-    public PersonDto findById(Long id){
+    public Person findById(Long id){
         logger.info("Finding one person...");
-        Person person = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this id! "));
-        return new PersonDto(person.getId(), person.getFirstName(), person.getLastName(), person.getAddress(), person.getGender());
+
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this id! "));
     }
 
-    public PersonDto create(PersonDto person) {
+    public Person create(Person person) {
         logger.info("Creating one person...");
 
-        Person entity = new Person(person.getId(), person.getFirstName(), person.getLastName(), person.getAddress(), person.getGender());
-        repository.save(entity);
-
-        return person;
+        return repository.save(person);
     }
 
-    public PersonDtoV2 createV2(PersonDtoV2 person) {
-        logger.info("Creating one person...");
-
-        Person entity = new Person(person.getId(), person.getFirstName(), person.getLastName(), person.getAddress(), person.getGender());
-        repository.save(entity);
-
-        return new PersonDtoV2(person.getId(), person.getFirstName(), person.getLastName(), person.getAddress(), person.getGender(), new Date());
-    }
-
-    public PersonDto update(PersonDto person) {
+    public Person update(Person person) {
         logger.info("Updating one person...");
 
         Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this id! "));
@@ -60,9 +45,7 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        repository.save(entity);
-
-        return person;
+        return repository.save(person);
     }
 
     public void delete(Long id) {

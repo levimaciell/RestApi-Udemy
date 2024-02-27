@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.levi.spring.person.dto.PersonDto;
-import com.levi.spring.person.dto.PersonDtoV2;
+import com.levi.spring.person.entity.Person;
 import com.levi.spring.person.services.PersonServices;
 
 @RestController
@@ -29,39 +28,29 @@ public class PersonController {
         value = "/{id}", 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public PersonDto findById(@PathVariable(value = "id") Long id){
+    public Person findById(@PathVariable(value = "id") Long id){
         return service.findById(id);
     }
 
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<PersonDto> findAll(){
+    public List<Person> findAll(){
         return service.findAll();
     }
 
     @PostMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public PersonDto create(@RequestBody PersonDto person){
+    public Person create(@RequestBody Person person){
         return service.create(person);
-    }
-
-    @PostMapping(
-        value = "/v2",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person){
-        return service.createV2(person);
     }
 
     @PutMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public PersonDto update(@RequestBody PersonDto person){
+    public Person update(@RequestBody Person person){
         return service.update(person);
     }
 
